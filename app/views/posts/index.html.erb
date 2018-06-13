@@ -8,7 +8,7 @@
         <span>로그인 해주세요 :)</span> 
       <% end %>
         
-      <h1 style="font-family: 'Indie Flower', cursive; font-size:80px;">Image Gallery</h1>
+      <h1 style="font-family: 'Indie Flower', cursive; font-size:80px;" class="center">Image Gallery</h1>
     </div>
   </head>
   
@@ -17,10 +17,19 @@
       <div class="row"> 
         <div class="col s12 m4"> 
           <div class="card"> 
-            <div class="card-image"> 
-              <img src="http://materializecss.com/images/office.jpg" /> 
-            </div> 
-            <div class="card-content"> 
+            <% if user_signed_in? %> 
+              <% unless current_user.avatar.url.nil? %> 
+                <div class="card-image"> 
+                  <img src="<%= current_user.avatar.url %>" /> 
+                </div> 
+              <% end %>
+            <% else %>
+              <div class="card-image"> 
+                  <img src="http://materializecss.com/images/office.jpg" />
+              </div>
+            <% end %>
+              
+            <div class="card-content", style="word-break:break-all;"> <!--자리 없으면 밑으로 글자 내려가게-->
               <% if user_signed_in? %> 
                 <div class="card-title"><%= current_user.name %></div> 
                   <p>이메일 :
@@ -30,7 +39,7 @@
                   <p>올린 글 개수 : <%= @posts_count %></p> 
                             
                   <%= link_to new_post_path do %> 
-                    <button style="margin-top:10px" class="btn">글 쓰기</button> 
+                    <button style="margin-top:10px; word-break:break-all;" class="btn">글 쓰기</button> 
                   <% end %> 
               <% else %> 
                 <span>로그아웃 상태</span>

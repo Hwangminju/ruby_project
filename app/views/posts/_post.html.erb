@@ -1,29 +1,51 @@
 <div class="card"> 
-  <div class="card-content"> 
-    <span class="card-title"><%= post.user.name %></span> 
-    <span><%= post.created_at %></span> 
+  <div class="card-content">
+    
+    <span class="card-title">
+      <% if post.user.avatar %> 
+        <img class="circle thumbnail" src="<%= post.user.avatar.thumb.url %>" /> 
+      <% end %>
+      <%= post.user.name %></span> 
+    <span><%= post.created_at %></span>
+    <div class="card post" data-post-id="<%= post.id %>"> 
+      
+      <div class="card-image"> 
+        <% if post.image.url %> 
+          <img src="<%= post.image.url %>" /> 
+        <% end %> 
+      </div>
+      
     <p><%= post.content %></p> 
   </div> 
                 
-  <div class="card-action">
+  <div class="card-action", style="word-break:break-all; font-size:15px;">
     <%= post.likes.size %> 명이 좋아합니다.
-    
-    <% if current_user.is_like?(post) %> 
-      <%= link_to "좋아요 취소", post_like_path(post), method: "post", class:"right"  %>
-    <% else %> 
-      <%= link_to "좋아요", post_like_path(post), method: "post", class:"right" %>
+    <% if user_signed_in? %>
+      <% if current_user.is_like?(post) %> 
+        <%= link_to "좋아요 취소", post_like_path(post), method: "post" %>
+      <% else %> 
+        <%= link_to "좋아요", post_like_path(post), method: "post" %>
+      <% end %>
     <% end %>
     
     <% if user_signed_in?%>
-      <div style="overflow:hidden;height:auto;", class="card-action">
-        <%= link_to "댓글 달기", post_comments_path(post), class: "left" %>
-        <% if current_user.id == post.user.id %> 
-          <%= link_to "삭제", post_path(post), method: "delete", class: "right" %>
-          <%= link_to "수정", edit_post_path(post), class: "right" %>
-        <% end %>
-      </div>
+      <% if current_user.id == post.user.id %> 
+        <%= link_to "삭제", post_path(post), method: "delete", class: "right" %>
+        <%= link_to "수정", edit_post_path(post), class: "right" %>
+      <% end %>
     <% end %>
     
+    <div class="card-action">
+      <%= form_tag post_comments_path(post) do %> 
+        <div class="input-field"> 
+          <%= text_area_tag :content, nil, class: "materialize-textarea", placeholder: "댓글을 작성해주세요.", required: true %> 
+        </div> 
+        <div class="input-field"> 
+          <%= button_tag "댓글 쓰기", class: "btn" %> 
+        </div> 
+      <% end %>
+    </div>
+
     <div class="card-action">
       <% if post.comments.present? %> 
         <ul class="collection"> 
@@ -32,9 +54,13 @@
             <span class="title"><%= comment.user.name %></span> 
             <span class="right"><%= comment.created_at %></span> 
             <p><%= comment.content %></p> 
-            <% if comment.user.id == current_user.id %> 
-              <div><%= link_to "삭제", post_comment_path(post, comment), method: "delete" %></div> 
-            <% end %> 
+            <% if user_signed_in? %>
+              <% if comment.user.id == current_user.id %> 
+                <div>
+                  <%= link_to "삭제", post_comment_path(post, comment), method: "delete" %>
+                </div> 
+              <% end %>
+            <% end %>
           </li> 
         <% end %> 
         </ul> 
@@ -42,4 +68,4 @@
 
     </div>
   </div> 
-</div> 
+</div>

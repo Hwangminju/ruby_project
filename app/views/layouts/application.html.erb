@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ImageGallery</title>
+    <title>Image Gallery</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -25,7 +25,8 @@
           <ul class="right hide-on-med-and-down"> 
             <li><a href="/posts">Posts</a></li>
             <% if user_signed_in? %>
-              <li><%= current_user.name %></li> 
+              <li><%= current_user.name %></li>
+              <li><%= link_to '회원정보 수정', edit_user_registration_path %></li>
               <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
             <% else %> 
               <li><%= link_to 'Sign in', new_user_session_path %></li> 

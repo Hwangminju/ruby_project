@@ -63,3 +63,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', git: 'https://github.com/plataformatec/devise.git'
 gem 'materialize-sass'
 gem 'jquery-rails'
+gem 'carrierwave'
+gem 'mini_magick'

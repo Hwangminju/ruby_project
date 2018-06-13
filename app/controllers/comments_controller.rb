@@ -19,7 +19,8 @@ class CommentsController < ApplicationController
         redirect_to root_path 
     end 
     
-    private def check_ownership! 
+    private 
+    def check_ownership! 
         @comment = Comment.find_by(id: params[:id]) 
         redirect_to root_path if @comment.user.id != current_user.id 
     end
