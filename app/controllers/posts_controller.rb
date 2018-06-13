@@ -25,7 +25,6 @@ class PostsController < ApplicationController
   end
   
   def update 
-    check_ownership
     @post.content = params[:content] 
     @post.image = params[:image] if params[:image].present? 
     
@@ -37,7 +36,6 @@ class PostsController < ApplicationController
   end
   
   def destroy 
-    check_ownership 
     @post.destroy 
     redirect_to root_path 
   end

@@ -7,20 +7,39 @@
                 
   <div class="card-action">
     <%= post.likes.size %> 명이 좋아합니다.
-    <%= link_to "댓글 달기", class: "right" %>
+    
     <% if current_user.is_like?(post) %> 
-      <%= link_to "좋아요 취소", post_like_path(post), method: "post" %>
+      <%= link_to "좋아요 취소", post_like_path(post), method: "post", class:"right"  %>
     <% else %> 
-      <%= link_to "좋아요", post_like_path(post), method: "post" %>
+      <%= link_to "좋아요", post_like_path(post), method: "post", class:"right" %>
     <% end %>
     
     <% if user_signed_in?%>
-      <div class="card-action">
+      <div style="overflow:hidden;height:auto;", class="card-action">
+        <%= link_to "댓글 달기", post_comments_path(post), class: "left" %>
         <% if current_user.id == post.user.id %> 
           <%= link_to "삭제", post_path(post), method: "delete", class: "right" %>
           <%= link_to "수정", edit_post_path(post), class: "right" %>
         <% end %>
       </div>
     <% end %>
+    
+    <div class="card-action">
+      <% if post.comments.present? %> 
+        <ul class="collection"> 
+        <% post.comments.each do |comment| %> 
+          <li class="collection-item"> 
+            <span class="title"><%= comment.user.name %></span> 
+            <span class="right"><%= comment.created_at %></span> 
+            <p><%= comment.content %></p> 
+            <% if comment.user.id == current_user.id %> 
+              <div><%= link_to "삭제", post_comment_path(post, comment), method: "delete" %></div> 
+            <% end %> 
+          </li> 
+        <% end %> 
+        </ul> 
+      <% end %>
+
+    </div>
   </div> 
 </div> 
