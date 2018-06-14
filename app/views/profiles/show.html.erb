@@ -37,9 +37,9 @@
                             <p>"It's Me :)"</p>
                         <% else %>
                             <% if current_user.following?(@user) %>
-                                <%= link_to 'Following', unfollow_user_path, remote: true, class: 'btn unfollow-button', id: 'unfollow-button', method: :post%>     
+                                <%= link_to 'Unfollow', unfollow_user_path, remote: true, class: 'btn unfollow-button', id: 'unfollow-button', method: :post %>     
                             <% else %>
-                                <%= link_to 'Follow', follow_user_path, remote: true, class: 'btn follow-button', id: 'follow-button', method: :post%>     
+                                <%= link_to 'Follow', follow_user_path, remote: true, class: 'btn follow-button', id: 'follow-button', method: :post %>     
                             <% end %>
                         <% end %>
                     <% end %>
