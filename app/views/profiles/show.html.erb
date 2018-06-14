@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <div class="container"> 
+            <div class="row"> 
+                <div class="col s12 m4"> 
+                    <div class="card"> 
+                        <div class="card-image"> 
+                            <img src="<%= @user.avatar.url %>" />
+                        </div>
+                        <p>Name :
+                            <div style="font-size:15px"><%= @user.name %>
+                            </div>
+                        </p>
+                    </div>
+                    
+                    <div class="card"> 
+                        <div class="card-following">
+                            <p><%= @user.following.count %>&nbsp;Following</p></br> 
+                            <%= @user.following %>
+                        </div>
+                        <div class="card-follower">
+                            <p><%= @user.followers.count %>&nbsp;Follower</p></br>  
+                            <%= @user.followers %>
+                        </div>
+    
+                    </div>
+                    
+                    <% if user_signed_in? %>
+                        <% if @user == current_user %>
+                            <% "It's Me :)" %>
+                        <% else %>
+                            <% if current_user.following?(@user) %>
+                                <%= link_to 'Following', unfollow_user_path, remote: true, class: 'btn unfollow-button', id: 'unfollow-button', method: :post%>     
+                            <% else %>
+                                <%= link_to 'Follow', follow_user_path, remote: true, class: 'btn follow-button', id: 'follow-button', method: :post%>     
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div class="col s12 m8"> 
+                    <div class="card">
+                        <% @posts.each do |post|   %>
+                            <%= render 'posts/post', post: post %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </head>
+</html>

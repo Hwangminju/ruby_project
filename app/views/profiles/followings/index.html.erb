@@ -1,0 +1,16 @@
+<div class="main users-index">
+  <div class="container">
+    <h1 class="users-heading">Following List</h1>
+    <% @users.each do |user| %>
+      <div class="users-index-item">
+        <div class="user-left">
+          <%= user.id %>
+          <img src="<%= user.avatar(:thumb) %>">
+        </div>
+        <div class="user-right">
+          <%= link_to(user.id, "/users/#{user.id}") %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -14,17 +14,26 @@ class User < ApplicationRecord
     Like.find_by(user_id: self.id, post_id: post.id).present? 
   end
   
-  # 관계 이름 : follower_relations(다른 이름으로 변경 가능) 
-  # 외래키 : followed_id 
-  # 모델명 : Follow 
-  has_many :follower_relations, foreign_key: "followed_id", class_name: "Follow"
-  
-  # 관계 이름 : followers (다른 이름으로 변경 가능) 
-  # follow_relations를 통해 가져올 값 : follower ( follow.follower ) 
-  has_many :followers, through: :follower_relations, source: :follower
+  has_many :follower_relationships, foreign_key: "following_id", class_name:  "Relationship", dependent: :destroy
+  has_many :followers, through: :follower_relationships, source: :follower
 
-  has_many :following_relations, foreign_key: "follower_id", class_name: "Follow" 
-  has_many :followings, through: :following_relations, source: :followed
+  has_many :following_relationships, foreign_key: "follower_id", class_name: "Relationship", dependent: :destroy
+  has_many :following, through: :following_relationships, source: :following
   
   mount_uploader :avatar, AvatarUploader
+  
+  #해당유저가 other_user를 팔로우 하고 있는지 true/false(화면설계 4에서 설명한 팔로우한 상태일경우 언팔로우 버튼을 보여주기 위해)
+  def following?(other_user)
+      following_relationships.find_by(following_id: other_user.id)
+  end
+  
+  #특정유저가 other_user를 팔로우(팔로우 버튼을 클릭시 Relationship에 해당 정보를 insert하는 로직)
+  def follow!(other_user)
+      following_relationships.create!(following_id: other_user.id)
+  end
+  
+  #특정유저가 other_user를 언팔로우(언팔로우 버튼을 클릭시 Relationship에 해당 정보를 delete하는 로직)
+  def unfollow!(other_user)
+      following_relationships.find_by(following_id: other_user.id).destroy
+  end
 end

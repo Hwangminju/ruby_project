@@ -1,0 +1,22 @@
+<div class="main users-index">
+  <div class="container">
+    <h1 class="users-heading">Followers List</h1>
+    <% @users.each do |user| %>
+      <div class="users-index-item">
+        <div class="user-left">
+          <%= user.id %>
+          <img src="<%= user.avatar(:thumb) %>">
+        </div>
+        <div class="user-right">
+          <span>
+            <% if user == current_user %>
+              <%= link_to 'Edit Profile', edit_profile_path(@user.id), class: 'btn edit-button' %>
+            <% else %>
+              <%= link_to 'Following', unfollow_user_path, remote: true, class: 'btn unfollow-button', id: 'unfollow-button', method: :post %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
