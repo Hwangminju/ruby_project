@@ -13,14 +13,14 @@ Rails.application.routes.draw do
   end
   
   scope module: :users do
-    resources :relationships, only: [:create, :destroy] #팔로우/언팔로우시 처리로직 (화면설계 5에 해당)
+    resources :relationships, only: [:follow_user, :unfollow_user] #팔로우/언팔로우시 처리로직 (화면설계 5에 해당)
   end
   
   resources :users do
     scope module: :users do
       resources :top, only: [:index], as: "top", path: "" # 프로필 페이지TOP (화면설계 1,3,4에해당)
-      resources :followers, only: [:index] # Follower일람 페이지 (화면설계 2에해당)
-      resources :followings, only: [:index] # Following일람 페이지 (화면설계 2에해당)
+      resources :followers # Follower일람 페이지 (화면설계 2에해당)
+      resources :followings # Following일람 페이지 (화면설계 2에해당)
     end
   end
   

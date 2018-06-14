@@ -17,18 +17,24 @@
                     <div class="card"> 
                         <div class="card-following">
                             <p><%= @user.following.count %>&nbsp;Following</p></br> 
-                            <%= @user.following %>
+                            <% @user.following.each do |user| %>
+                                <img src="<%= user.avatar.url(:thumb) %>">
+                                <%= user.name %>
+                            <% end %> 
                         </div>
                         <div class="card-follower">
                             <p><%= @user.followers.count %>&nbsp;Follower</p></br>  
-                            <%= @user.followers %>
+                            <% @user.followers.each do |user| %>
+                                <img src="<%= user.avatar.url(:thumb) %>">
+                                <%= user.name %>
+                            <% end %> 
                         </div>
     
                     </div>
                     
                     <% if user_signed_in? %>
                         <% if @user == current_user %>
-                            <% "It's Me :)" %>
+                            <p>"It's Me :)"</p>
                         <% else %>
                             <% if current_user.following?(@user) %>
                                 <%= link_to 'Following', unfollow_user_path, remote: true, class: 'btn unfollow-button', id: 'unfollow-button', method: :post%>     
