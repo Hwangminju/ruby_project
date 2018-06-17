@@ -22,7 +22,10 @@
             <li class="item"><%= User.find_by(id: session[:user_id]).name %></li> 
           <% end %>
           
-          <ul class="right hide-on-med-and-down"> 
+          <ul class="right hide-on-med-and-down">
+            <% if user_signed_in? %>
+            <li><%= link_to "My Page", profile_path(current_user.id), method: "get" %> </li>
+            <% end %>
             <li><a href="/posts">Posts</a></li>
             <% if user_signed_in? %>
               <li><%= current_user.name %></li>

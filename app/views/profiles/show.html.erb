@@ -18,15 +18,17 @@
                         <div class="card-following">
                             <p><%= @user.following.count %>&nbsp;Following</p></br> 
                             <% @user.following.each do |user| %>
+                                <% users = User.find(user.id) %>
                                 <img src="<%= user.avatar.url(:thumb) %>">
-                                <%= user.name %>
+                                <%= link_to users.name, profile_path(user.id), method: "get" %></br>
                             <% end %> 
                         </div>
                         <div class="card-follower">
-                            <p><%= @user.followers.count %>&nbsp;Follower</p></br>  
+                            <p><%= @user.followers.count %>&nbsp;Follower</p></br>
                             <% @user.followers.each do |user| %>
+                                <% users = User.find(user.id) %>
                                 <img src="<%= user.avatar.url(:thumb) %>">
-                                <%= user.name %>
+                                <%= link_to users.name, profile_path(user.id), method: "get" %></br>
                             <% end %> 
                         </div>
     
